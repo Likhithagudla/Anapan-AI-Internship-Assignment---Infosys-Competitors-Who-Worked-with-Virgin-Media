@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Virgin Media - Collaborations</title>
+  <style>
+    body {
+      background-color: #0d1117;
+      color: #c9d1d9;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background-color: #238636;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    button:disabled {
+      background-color: #30363d;
+      cursor: not-allowed;
+    }
+
+    .success {
+      background-color: #238636;
+      padding: 12px;
+      margin: 20px 0;
+      border-radius: 6px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .success.show {
+      opacity: 1;
+    }
+
+    section {
+      overflow-x: auto;
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      margin-top: 20px;
+      width: 100%;
+      max-width: 400px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+      background-color: #161b22;
+      color: white;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: #161b22;
+      display: none;
+    }
+
+    th, td {
+      border: 1px solid #30363d;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #21262d;
+    }
+
+    a {
+      color: #58a6ff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔍 Infosys Competitors Who Worked with Virgin Media</h1>
+  <button id="loadBtn" onclick="loadData()">Run Collaboration Search</button>
+  <button id="exportBtn" onclick="downloadCSV()" disabled>Download CSV</button>
+  <div class="success" id="successBox" role="alert">✅ Search Completed!</div>
+
+  <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search by competitor or keyword..." />
+
+  <div style="margin-top: 10px; font-size: 14px; color: #8b949e;">Last updated: April 30, 2025</div>
+
+  <section>
+    <table id="resultsTable">
+      <thead>
+        <tr>
+          <th>Competitor</th>
+          <th>Title</th>
+          <th>Link</th>
+          <th>Snippet</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </section>
+
+  <script>
+    let data = [];
+
+    function loadData() {
+      data = [
+        { competitor: "TCS", title: "TCS and Virgin Media O2 Win the GSA Professional Award", link: "https://www.tcs.com/who-we-are/newsroom/press-release/tcs-virgin-media-o2-win-gsa-professional-award-2022", snippet: "TCS collaborated with Virgin Media O2 to reimagine the end-to-end customer journey, transforming IT infrastructure for resilient and always-on communication services." },
+        { competitor: "Wipro", title: "Wipro Named Digital Partner for Virgin Media", link: "https://www.wipro.com/digital/partners/", snippet: "Wipro is listed among Virgin Media's digital partners, collaborating on innovative solutions in the communications and media sector." },
+        { competitor: "Cognizant", title: "Cognizant in Virgin Media Partner Ecosystem", link: "https://www.cognizant.com/us/en/about-cognizant/partners", snippet: "Cognizant is included in Virgin Media's partner ecosystem, contributing to communications, media, and technology solutions." },
+        { competitor: "Accenture", title: "Virgin Media O2 Partners with Accenture on 5G", link: "https://newsroom.accenture.com/news/2024/virgin-media-o2-partners-with-accenture-to-enhance-private-5g-solutions-for-uk-businesses-tapping-into-estimated-half-a-billion-pound-uk-market", snippet: "Accenture partnered with Virgin Media O2 to enhance private 5G solutions for UK businesses, leveraging their digital platforms and industry expertise." },
+        { competitor: "Capgemini", title: "Capgemini Supports Virgin Media Digital Initiatives", link: "https://www.capgemini.com/about-us/technology-partners/", snippet: "Capgemini has been recognized as a technology partner by Virgin Media, contributing to various digital transformation initiatives." },
+        { competitor: "HCL Technologies", title: "HCL Strategic Alliance with Virgin Media", link: "https://www.hcltech.com/about-us/alliances", snippet: "HCL Technologies is part of Virgin Media's strategic alliances, working together on various technology and digital initiatives." },
+        { competitor: "Tech Mahindra", title: "Tech Mahindra Powers AI CX for Virgin Media", link: "https://www.techmahindra.com/insights/press-releases/tech-mahindra-and-liveperson-power-ai-driven-customer-experience-financial-services-healthcare/", snippet: "Tech Mahindra, in partnership with LivePerson, provided AI-driven customer experience solutions to Virgin Media, enhancing digital interactions." },
+        { competitor: "IBM", title: "IBM Supports Digital Accessibility with Virgin Media", link: "https://www.virginmedia.com/corporate/sustainability/stories/collaborating-with-our-b2b-customers-for-scope", snippet: "IBM collaborated with Virgin Media Business and the Scope charity to address digital accessibility challenges, promoting inclusive digital services." },
+        { competitor: "Deloitte", title: "Deloitte Backs Virgin Media ESG Strategy", link: "https://www.deloitte.com/uk/en/about/story/impact/virgin-media-o2s-esg-strategy.html", snippet: "Deloitte supported Virgin Media O2's ambitious ESG strategy, aiding in the development and implementation of their Better Connections Plan." }
+      ];
+
+      const table = document.getElementById("resultsTable");
+      const tbody = document.getElementById("tableBody");
+      const message = document.getElementById("successBox");
+      const button = document.getElementById("loadBtn");
+      const exportBtn = document.getElementById("exportBtn");
+
+      tbody.innerHTML = "";
+      data.forEach(item => {
+        const row = `<tr>
+          <td>${item.competitor}</td>
+          <td>${item.title}</td>
+          <td><a href="${item.link}" target="_blank">Link</a></td>
+          <td>${item.snippet}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+      });
+
+      table.style.display = "table";
+      message.classList.add("show");
+      button.disabled = true;
+      exportBtn.disabled = false;
+    }
+
+    function filterTable() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const tbody = document.getElementById("tableBody");
+      tbody.innerHTML = "";
+
+      const filtered = data.filter(item =>
+        item.competitor.toLowerCase().includes(input) ||
+        item.title.toLowerCase().includes(input) ||
+        item.snippet.toLowerCase().includes(input)
+      );
+
+      filtered.forEach(item => {
+        const row = `<tr>
+          <td>${item.competitor}</td>
+          <td>${item.title}</td>
+          <td><a href="${item.link}" target="_blank">Link</a></td>
+          <td>${item.snippet}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    function downloadCSV() {
+      let csv = 'Competitor,Title,Link,Snippet\n';
+      data.forEach(item => {
+        csv += `"${item.competitor}","${item.title}","${item.link}","${item.snippet}"
+`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      link.setAttribute("href", URL.createObjectURL(blob));
+      link.setAttribute("download", "virgin_media_collaborations.csv");
+      link.style.display = "none";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+
+</body>
+</html>
